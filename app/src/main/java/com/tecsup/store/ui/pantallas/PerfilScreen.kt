@@ -21,9 +21,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.tecsup.store.data.Catalogo
+import com.tecsup.store.ui.TiendaEstado
 
 @Composable
-fun PerfilScreen() {
+fun PerfilScreen(estado: TiendaEstado) {
     val usuario = Catalogo.usuario
 
     Column(
@@ -56,7 +57,7 @@ fun PerfilScreen() {
         Spacer(Modifier.height(20.dp))
         Dato("Código", usuario.codigo)
         Dato("Carrera", usuario.carrera)
-        Dato("Favoritos", "0")
+        Dato("Favoritos", estado.cantidadFavoritos.toString())
         Dato("Pedidos", Catalogo.pedidos.size.toString())
     }
 }

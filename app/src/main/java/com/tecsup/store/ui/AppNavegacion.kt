@@ -132,8 +132,16 @@ fun AppNavegacion() {
                 )
             }
             composable(Rutas.Pedidos) { PedidosScreen() }
-            composable(Rutas.Favoritos) { FavoritosScreen() }
-            composable(Rutas.Perfil) { PerfilScreen() }
+            composable(Rutas.Favoritos) {
+                FavoritosScreen(
+                    estado = estado,
+                    onProducto = { nav.navigate("detalle/${it.id}") },
+                    onFavorito = { alternarFavorito(it) },
+                    onCompartir = { avisar("Compartiendo ${it.nombre}") },
+                    onReportar = { avisar("Reporte enviado: ${it.nombre}") }
+                )
+            }
+            composable(Rutas.Perfil) { PerfilScreen(estado) }
             composable(
                 route = "detalle/{productoId}",
                 arguments = listOf(navArgument("productoId") { type = NavType.StringType })
