@@ -67,8 +67,18 @@ fun AppNavegacion() {
         drawerState = drawerState,
         drawerContent = {
             AppDrawer(
-                onDestino = { scope.launch { drawerState.close() } },
-                onCerrarSesion = { scope.launch { drawerState.close() } }
+                onDestino = { elegido ->
+                    scope.launch { drawerState.close() }
+                    nav.navigate(elegido.ruta) {
+                        popUpTo(Destino.Inicio.ruta) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                onCerrarSesion = {
+                    scope.launch { drawerState.close() }
+                    avisar("Sesión cerrada")
+                }
             )
         }
     ) {
