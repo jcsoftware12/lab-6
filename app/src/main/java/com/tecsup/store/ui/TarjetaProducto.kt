@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.MoreVert
@@ -50,6 +51,7 @@ private fun colorDe(categoria: String): Color = when (categoria) {
 @Composable
 fun TarjetaProducto(
     producto: Producto,
+    esFavorito: Boolean,
     onClick: () -> Unit,
     onFavorito: () -> Unit,
     onCompartir: () -> Unit,
@@ -118,8 +120,13 @@ fun TarjetaProducto(
                     onDismissRequest = { menuAbierto = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Favoritos") },
-                        leadingIcon = { Icon(Icons.Outlined.FavoriteBorder, contentDescription = null) },
+                        text = { Text(if (esFavorito) "Quitar de favoritos" else "Favoritos") },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = if (esFavorito) Icons.Rounded.Favorite else Icons.Outlined.FavoriteBorder,
+                                contentDescription = null
+                            )
+                        },
                         onClick = {
                             menuAbierto = false
                             onFavorito()

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.tecsup.store.model.Producto
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import androidx.navigation.NavType
@@ -46,12 +47,20 @@ private object Rutas {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavegacion() {
+    val estado = remember { TiendaEstado() }
     val nav = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     fun avisar(texto: String) {
         scope.launch { snackbar.showSnackbar(texto) }
+    }
+    fun alternarFavorito(producto: Producto) {
+        val agregado = estado.alternarFavorito(producto.id)
+        avisar(
+            if (agregado) "${producto.nombre} se agregó a favoritos"
+            else "${producto.nombre} se quitó de favoritos"
+        )
     }
     val entrada by nav.currentBackStackEntryAsState()
     val detalleId = entrada?.arguments?.getString("productoId")?.toIntOrNull()
@@ -114,8 +123,9 @@ fun AppNavegacion() {
         ) {
             composable(Rutas.Inicio) {
                 InicioScreen(
+                    estado = estado,
                     onProducto = { nav.navigate("detalle/${it.id}") },
-                    onFavorito = { avisar("${it.nombre} marcado en favoritos") },
+                    onFavorito = { alternarFavorito(it) },
                     onCompartir = { avisar("Compartiendo ${it.nombre}") },
                     onReportar = { avisar("Reporte enviado: ${it.nombre}") }
                 )
@@ -133,9 +143,9 @@ fun AppNavegacion() {
                 } else {
                     DetalleScreen(
                         producto = producto,
-                        esFavorito = false,
-                        onFavorito = {},
-                        onCompartir = {}
+                        esFavorito = estado.esFavorito(producto.id),
+                        onFavorito = { alternarFavorito(producto) },
+                        onCompartir = { avisar("Compartiendo ${producto.nombre}") }
                     )
                 }
             }

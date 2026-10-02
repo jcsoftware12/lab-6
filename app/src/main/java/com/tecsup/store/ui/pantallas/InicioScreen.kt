@@ -21,9 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.tecsup.store.data.Catalogo
 import com.tecsup.store.model.Producto
 import com.tecsup.store.ui.TarjetaProducto
+import com.tecsup.store.ui.TiendaEstado
 
 @Composable
 fun InicioScreen(
+    estado: TiendaEstado,
     onProducto: (Producto) -> Unit,
     onFavorito: (Producto) -> Unit,
     onCompartir: (Producto) -> Unit,
@@ -84,6 +86,7 @@ fun InicioScreen(
             items(seccion.productos, key = { it.id }) { producto ->
                 TarjetaProducto(
                     producto = producto,
+                    esFavorito = estado.esFavorito(producto.id),
                     onClick = { onProducto(producto) },
                     onFavorito = { onFavorito(producto) },
                     onCompartir = { onCompartir(producto) },
