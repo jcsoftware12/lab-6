@@ -17,6 +17,7 @@ import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +47,9 @@ private fun colorDe(categoria: String): Color = when (categoria) {
 fun TarjetaProducto(
     producto: Producto,
     onClick: () -> Unit,
+    onFavorito: () -> Unit,
+    onCompartir: () -> Unit,
+    onReportar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var menuAbierto by remember { mutableStateOf(false) }
@@ -108,7 +112,29 @@ fun TarjetaProducto(
                 DropdownMenu(
                     expanded = menuAbierto,
                     onDismissRequest = { menuAbierto = false }
-                ) {}
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Favoritos") },
+                        onClick = {
+                            menuAbierto = false
+                            onFavorito()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Compartir") },
+                        onClick = {
+                            menuAbierto = false
+                            onCompartir()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Reportar") },
+                        onClick = {
+                            menuAbierto = false
+                            onReportar()
+                        }
+                    )
+                }
             }
         }
     }

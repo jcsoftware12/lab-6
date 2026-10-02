@@ -24,7 +24,10 @@ import com.tecsup.store.ui.TarjetaProducto
 
 @Composable
 fun InicioScreen(
-    onProducto: (Producto) -> Unit
+    onProducto: (Producto) -> Unit,
+    onFavorito: (Producto) -> Unit,
+    onCompartir: (Producto) -> Unit,
+    onReportar: (Producto) -> Unit
 ) {
     var categoria by rememberSaveable { mutableStateOf<String?>(null) }
     val secciones = Catalogo.secciones(categoria)
@@ -82,6 +85,9 @@ fun InicioScreen(
                 TarjetaProducto(
                     producto = producto,
                     onClick = { onProducto(producto) },
+                    onFavorito = { onFavorito(producto) },
+                    onCompartir = { onCompartir(producto) },
+                    onReportar = { onReportar(producto) },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
