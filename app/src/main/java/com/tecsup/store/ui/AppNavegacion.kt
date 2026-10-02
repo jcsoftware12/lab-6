@@ -3,7 +3,11 @@ package com.tecsup.store.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,6 +47,7 @@ private object Rutas {
 @Composable
 fun AppNavegacion() {
     val nav = rememberNavController()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     fun avisar(texto: String) {
@@ -58,6 +63,15 @@ fun AppNavegacion() {
         else -> productoDetalle?.nombre ?: "Inicio"
     }
 
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            AppDrawer(
+                onDestino = { scope.launch { drawerState.close() } },
+                onCerrarSesion = { scope.launch { drawerState.close() } }
+            )
+        }
+    ) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         snackbarHost = { SnackbarHost(snackbar) },
@@ -68,6 +82,10 @@ fun AppNavegacion() {
                     if (productoDetalle != null) {
                         IconButton(onClick = { nav.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        }
+                    } else {
+                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Icon(Icons.Rounded.Menu, contentDescription = "Abrir menú")
                         }
                     }
                 },
@@ -110,5 +128,6 @@ fun AppNavegacion() {
                 }
             }
         }
+    }
     }
 }
