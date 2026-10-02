@@ -78,6 +78,7 @@ fun AppNavegacion() {
         drawerContent = {
             AppDrawer(
                 destinoActual = destino,
+                cantidadFavoritos = estado.cantidadFavoritos,
                 onDestino = { elegido ->
                     scope.launch { drawerState.close() }
                     nav.navigate(elegido.ruta) {

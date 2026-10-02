@@ -15,6 +15,8 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingBag
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material3.Badge
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +51,7 @@ enum class Destino(
 @Composable
 fun AppDrawer(
     destinoActual: Destino?,
+    cantidadFavoritos: Int,
     onDestino: (Destino) -> Unit,
     onCerrarSesion: () -> Unit
 ) {
@@ -97,11 +100,21 @@ fun AppDrawer(
         Spacer(Modifier.height(8.dp))
         Destino.entries.forEach { destino ->
             val seleccionado = destino == destinoActual
+            val icono = if (destino == Destino.Favoritos && cantidadFavoritos > 0) {
+                Icons.Rounded.Favorite
+            } else {
+                destino.icono
+            }
             NavigationDrawerItem(
                 label = { Text(destino.titulo) },
                 selected = seleccionado,
                 onClick = { onDestino(destino) },
-                icon = { Icon(destino.icono, contentDescription = null) },
+                icon = { Icon(icono, contentDescription = null) },
+                badge = if (destino == Destino.Favoritos && cantidadFavoritos > 0) {
+                    { Badge { Text(cantidadFavoritos.toString()) } }
+                } else {
+                    null
+                },
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                 colors = NavigationDrawerItemDefaults.colors(
                     selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
