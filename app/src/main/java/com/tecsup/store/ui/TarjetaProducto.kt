@@ -13,11 +13,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -115,6 +119,7 @@ fun TarjetaProducto(
                 ) {
                     DropdownMenuItem(
                         text = { Text("Favoritos") },
+                        leadingIcon = { Icon(Icons.Outlined.FavoriteBorder, contentDescription = null) },
                         onClick = {
                             menuAbierto = false
                             onFavorito()
@@ -122,13 +127,16 @@ fun TarjetaProducto(
                     )
                     DropdownMenuItem(
                         text = { Text("Compartir") },
+                        leadingIcon = { Icon(Icons.Outlined.Share, contentDescription = null) },
                         onClick = {
                             menuAbierto = false
                             onCompartir()
                         }
                     )
+                    HorizontalDivider()
                     DropdownMenuItem(
                         text = { Text("Reportar") },
+                        leadingIcon = { Icon(Icons.Outlined.Flag, contentDescription = null) },
                         onClick = {
                             menuAbierto = false
                             onReportar()
