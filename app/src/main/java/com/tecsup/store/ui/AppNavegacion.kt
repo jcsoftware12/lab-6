@@ -56,6 +56,7 @@ fun AppNavegacion() {
     val entrada by nav.currentBackStackEntryAsState()
     val detalleId = entrada?.arguments?.getString("productoId")?.toIntOrNull()
     val productoDetalle = detalleId?.let { Catalogo.producto(it) }
+    val destino = Destino.desdeRuta(entrada?.destination?.route)
     val titulo = when (entrada?.destination?.route) {
         Rutas.Pedidos -> "Mis pedidos"
         Rutas.Favoritos -> "Favoritos"
@@ -67,6 +68,7 @@ fun AppNavegacion() {
         drawerState = drawerState,
         drawerContent = {
             AppDrawer(
+                destinoActual = destino,
                 onDestino = { elegido ->
                     scope.launch { drawerState.close() }
                     nav.navigate(elegido.ruta) {
